@@ -39,6 +39,8 @@ function add_htaccess_code() {
 	$file = '../.htaccess';
 	$code = "\r\n#PURL CODE\nRewriteEngine on 
 RewriteCond %{SCRIPT_FILENAME} !([A-Za-z0-9_]+)\.(html?|php|asp|css|jpg|gif|shtml|htm|xhtml|txt|ico|xml|wp-admin|admin)/?$ [NC] 
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([A-Za-z]+)\.([A-Za-z]+)/?$ ".get_option('purlemURI')."&purl=\\$1\\$2&ID=".get_option('purlemID')."&page=1&wordpress=Y [R]\n#END PURL CODE";
 	$code_permalink = "#PURL CODE
 <IfModule mod_rewrite.c>
