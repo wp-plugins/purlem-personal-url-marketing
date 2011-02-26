@@ -3,8 +3,8 @@ Contributors: Marty Thomas, Purlem
 Tags: Personal URL, Personalized URL, PURL, Marketing
 Link: http://purlem.com/
 Requires at least: 2.1
-Tested up to: 2.9.2
-Stable tag: trunk
+Tested up to: 3.1
+Stable tag: 1.0.3
 
 Personalize your blog to visitors and track results with Personalized URLs (PURLs). The Plugin Requires a Purlem Account.
 
@@ -18,15 +18,10 @@ When 'Joe' visits his Personal URL, he will be redirected to a specific page in 
 
 == Installation ==
 
-1. Sign up for a free Purlem account http://purlem.com/signup/plan/1
-2. Unzip and Upload `purlem-personalized-url` to the `/wp-content/plugins/` directory.
-3. Create a new Blog Page that you would like to personalize to the visitor. (Select "Pages" in the left column of your wordpress admin).
-4. Copy the full URL of the Blog Page you just created.
-5. Under the 'Settings' menu in Wordpress, locate 'Purlem'. Insert your Purlem Client ID and Blog Page URL into Purlem Settings. 
-6. Login to your Purlem Dashboard, and Create a New Campaign
-7. Select 'Wordpress' under 'Speciality Install' in the right column of the campaign creation page. 
-8. Enter the campaign Name and Blog Page URL copied in step 4.
-
+1. Unzip and Upload `purlem-personalized-url` to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. Create a new Blog Page to use as the PURL Landing Page.
+3. Under the 'Settings' menu in Wordpress, locate 'Purlem'. Insert Purlem UserID and Blog Page URL into Purlem Settings. 
 
 == Frequently Asked Questions ==
 
