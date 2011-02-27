@@ -70,7 +70,7 @@ RewriteRule ^([a-zA-Z]+)\\\\\.([a-zA-Z]+)/?$ ".get_option('purlemURI')."?purl=\\
 }
 
 function display_purl_code() {
-	$curl = curl_init();curl_setopt ($curl, CURLOPT_URL, 'http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&conversionID='.$_REQUEST["conversionID"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"].''); curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1); $user = curl_exec ($curl); curl_close ($curl); $user = json_decode($user);  session_start(); if($_GET['username']) $_SESSION['visitor']=$_GET['username']; if($user->{'login'} && ($_SESSION['visitor'] != $user->{'purl1'})) { echo $user->{'login'}; exit; }
+	$data = @file_get_contents('http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"]); $user = json_decode($data); session_start(); if($_GET['username']) $_SESSION['visitor']=$_GET['username']; if($user->{'login'} && ($_SESSION['visitor'] != $user->{'purl1'})) { echo $user->{'login'}; exit; }
 	$_SESSION['user'] = $user;
 }
 
@@ -82,7 +82,7 @@ function display_purl_content($content) {
 		if(get_option('showPurlForm') == 'Y') $newContent .= $_SESSION['user']->{'form'};
 		
 		if(!$_SESSION['user']->{'firstName'}) {
-			$newContent .= '<div style="background-color: white;padding: 10px;margin-top: 10px;margin-bottom: 10px;border: 1px solid #ddd;"><img src="http://www.purlem.com/images/logo.gif" width="157" height="41"><br><br><strong>PURL Not Found</strong><br> Check your Purlem Plugin Settings<br>Need an account? <a href="http://www.purlem.com">Sign Up </a></div>';
+			$newContent .= '<div style="background-color: white;padding: 10px;margin-top: 10px;margin-bottom: 10px;border: 1px solid #ddd;"><img src="http://www.purlem.com/assets/images/logo_white.gif" width="157" height="41"><br><br><strong>PURL Not Found</strong><br> Check your Purlem Plugin Settings<br>Need an account? <a href="http://www.purlem.com">Sign Up </a></div>';
 		}
 	}
 	
@@ -112,7 +112,7 @@ function plugin_options_page() {
 	<h2>Purlem Settings</h2>
 	by <strong>Marty Thomas</strong> of <strong>Purlem</strong><br />
 	<div style="background-color:white;padding: 10px 10px 10px 10px;margin-right:15px;margin-top:10px;margin-bottom:15px;border: 1px solid #ddd; width:350px;">
-	<img src="http://www.purlem.com/images/logo.gif" width="300" height="84" alt="Purlem Personalized URL Marketing" /><br />
+	<img src="http://www.purlem.com/assets/images/logo_white.gif" width="300" height="84" alt="Purlem Personalized URL Marketing" /><br />
   <h3 style="margin-top:0px;margin-bottom:0px;">Purlem - Personal URL Marketing</h3>
 	<a href="http://www.purlem.com">http://www.purlem.com</a></div>
   <p>Enter details from your Purlem account below.  Don't have an account? <a href="http://www.purlem.com">Sign Up</a> </p>
@@ -229,11 +229,29 @@ function purlCSS() {
 	?>
   <style type="text/css">
 	<!--
-	.formElement input.textbox {
+	.formTitle {
+		font-size:20px;
+		font-weight:bold;
+		margin-bottom:10px;
+	}
+	.formDescription {
+		font-size:16px;
+		margin-bottom:15px;
+	}
+	.formElement {
+		margin-bottom:15px;
+	}
+	.formElement .textbox {
 		font-size: 16px;
 		width:97%;
 		font-weight: bold;
 		padding:2px;
+	}
+	.formElement .title {
+		font-weight:bold;
+	}
+	.checkbox, .radio {
+		font-weight:normal;
 	}
 	.button {
 		margin-top:10px;
