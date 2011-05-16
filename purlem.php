@@ -70,7 +70,7 @@ RewriteRule ^([a-zA-Z]+)\\\\\.([a-zA-Z]+)/?$ ".get_option('purlemURI')."?purl=\\
 }
 
 function display_purl_code() {
-	$data = @file_get_contents('http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"]); $user = json_decode($data); session_start(); if($_GET['username']) $_SESSION['visitor']=$_GET['username']; if($user->{'login'} && ($_SESSION['visitor'] != $user->{'purl1'})) { echo $user->{'login'}; exit; }
+	$data = @file_get_contents('http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"]); $user = json_decode($data); @session_start(); if($_GET['username']) $_SESSION['visitor']=$_GET['username']; if($user->{'login'} && ($_SESSION['visitor'] != $user->{'purl1'})) { echo $user->{'login'}; exit; }
 	$_SESSION['user'] = $user;
 }
 
