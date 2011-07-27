@@ -1,15 +1,15 @@
 <?php
 /*
 Plugin Name: Purlem Personalized URL
-Plugin URI: http://www.purlem.com
-Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://purlem.com'>Purlem Account</a>.</strong>
-Version: 1.0.5
+Plugin URI: http://purlem.com
+Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
+Version: 1.0.6
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
 
 
-Copyright 2010  Marty Thomas  (email : support@purlem.com)
+Copyright 2011  Marty Thomas  (email : support@purlem.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as 
@@ -41,14 +41,14 @@ function add_htaccess_code() {
 RewriteCond %{SCRIPT_FILENAME} !([A-Za-z0-9_]+)\.(html?|php|asp|css|jpg|gif|shtml|htm|xhtml|txt|ico|xml|wp-admin|admin)/?$ [NC] 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^([A-Za-z0-9]+)\.([A-Za-z0-9]+)/?$ ".get_option('purlemURI')."&purl=\\$1\\$2&ID=".get_option('purlemID')."&page=1&wordpress=Y [R]\n#END PURL CODE";
+RewriteRule ^([A-Za-z]+)\.([A-Za-z]+)/?$ ".get_option('purlemURI')."&purl=\\$1\\$2&ID=".get_option('purlemID')."&page=1&wordpress=Y [R]\n#END PURL CODE";
 	$code_permalink = "#PURL CODE
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteCond %{SCRIPT_FILENAME} !([A-Za-z0-9_]+).(html?|php|asp|css|jpg|gif|shtml|htm|xhtml|txt|ico|xml|wp-admin|admin)/?$ [NC]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([a-zA-Z0-9]+)\\\\\.([a-zA-Z0-9]+)/?$ ".get_option('purlemURI')."?purl=\\$1\\$2&ID=".get_option('purlemID')."&page=1&wordpress=Y [R,L]
+RewriteRule ^([a-zA-Z]+)\\\\\.([a-zA-Z]+)/?$ ".get_option('purlemURI')."?purl=\\$1\\$2&ID=".get_option('purlemID')."&page=1&wordpress=Y [R,L]
 </IfModule>
 #END PURL CODE\n";
 	$htaccess_content = @file_get_contents($file);
@@ -82,7 +82,7 @@ function display_purl_content($content) {
 		if(get_option('showPurlForm') == 'Y') $newContent .= $_SESSION['user']->{'form'};
 		
 		if(!$_SESSION['user']->{'firstName'}) {
-			$newContent .= '<div style="background-color: white;padding: 10px;margin-top: 10px;margin-bottom: 10px;border: 1px solid #ddd;"><img src="http://www.purlem.com/assets/images/logo_white.gif" width="157" height="41"><br><br><strong>PURL Not Found</strong><br> Check your Purlem Plugin Settings<br>Need an account? <a href="http://www.purlem.com">Sign Up </a></div>';
+			$newContent .= '<b>PURL NOT FOUND</b> Please try again.';
 		}
 	}
 	
