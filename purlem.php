@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.0.6
+Version: 1.0.7
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
@@ -161,9 +161,8 @@ function purl_convert($content) {
 	$patterns[$i] = '/#position/'; $i++;
 	$patterns[$i] = '/#email/'; $i++;
 	$patterns[$i] = '/#phone/'; $i++;
-	$patterns[$i] = '/#fax/'; $i++;
 	$patterns[$i] = '/#address1/'; $i++;
-	$patterns[$i] = '/#address2/'; $i++;
+	$patterns[$i] = '/#address/'; $i++;
 	$patterns[$i] = '/#city/'; $i++;
 	$patterns[$i] = '/#state/'; $i++;
 	$patterns[$i] = '/#zip/'; $i++;
@@ -171,17 +170,16 @@ function purl_convert($content) {
 	$i=0;
 	$replacements[$i] = $_SESSION['user']->{'firstName'}; $i++;
 	$replacements[$i] = $_SESSION['user']->{'lastName'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'organization'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'position'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'email'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'phone'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'fax'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'address1'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'address2'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'city'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'state'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'zip'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'password'}; $i++;
+	$replacements[$i] = $_SESSION['user']->{'contact_organization'}; $i++;
+	$replacements[$i] = $_SESSION['user']->{'contact_position'}; $i++;
+	$replacements[$i] = $_SESSION['user']->{'contact_email'}; $i++;
+	$replacements[$i] = $_SESSION['user']->{'contact_phone'}; $i++;
+	$replacements[$i] = $_SESSION['user']->{'contact_address1'}; $i++;
+	$replacements[$i] = $_SESSION['user']->{'contact_address1'}; $i++;
+	$replacements[$i] = $_SESSION['user']->{'contact_city'}; $i++;
+	$replacements[$i] = $_SESSION['user']->{'contact_state'}; $i++;
+	$replacements[$i] = $_SESSION['user']->{'contact_zip'}; $i++;
+	$replacements[$i] = $_SESSION['user']->{'contact_password'}; $i++;
 	$convertedContent = preg_replace($patterns, $replacements, $content);
 	return $convertedContent;
 }
