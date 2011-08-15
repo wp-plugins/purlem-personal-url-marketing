@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.0.9
+Version: 1.1.0
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
@@ -127,8 +127,9 @@ function plugin_options_page() {
   </tr>
    
   <tr valign="top">
-  <th scope="row">Redirect URL: </th>
-  <td><input name="purlemURI" type="text" value="<?php echo get_option('purlemURI'); ?>" size="50" /><br /><i>Full URL of Blog Page to redirect PURL visitors to.</i></td>
+  <th scope="row">Page URL: </th>
+  <td><input name="purlemURI" type="text" value="<?php echo get_option('purlemURI'); ?>" size="50" /><br />
+  <i>The full URL of the blog page to be personalized.</i></td>
   </tr>
   
    <tr valign="top">
