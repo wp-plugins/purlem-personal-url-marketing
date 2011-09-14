@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.1.1
+Version: 1.1.2
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
@@ -70,7 +70,13 @@ RewriteRule ^([a-zA-Z0-9]+)\\\\\.([a-zA-Z0-9]+)/?$ ".get_option('purlemURI')."?p
 }
 
 function display_purl_code() {
-	$data = @file_get_contents('http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"]); $user = json_decode($data); @session_start(); if($_GET['username']) $_SESSION['visitor']=$_GET['username']; if($user->{'login'} && ($_SESSION['visitor'] != $user->{'firstName'}.''.$user->{'lastName'})) { echo $user->{'login'}; exit; }
+	$data = @file_get_contents('http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"]); 
+	$user = json_decode($data); 
+	@session_start();
+	if($user->{'login'} && ($_SESSION['visitor'] != $user->{'firstName'}.''.$user->{'lastName'})) { 
+		echo $user->{'login'}; 
+		exit; 
+	}
 	$_SESSION['user'] = $user;
 }
 
@@ -115,7 +121,9 @@ function plugin_options_page() {
 	<img src="http://www.purlem.com/assets/images/logo_white.gif" width="300" height="84" alt="Purlem Personalized URL Marketing" /><br />
   <h3 style="margin-top:0px;margin-bottom:0px;">Purlem - Personal URL Marketing</h3>
 	<a href="http://www.purlem.com">http://www.purlem.com</a></div>
-  <p>Enter details from your Purlem account below.  Don't have an account? <a href="http://www.purlem.com">Sign Up</a> </p>
+  <p><b>Enter details from your Purlem account below.</b><br />
+  Don't have an account? <a href="http://www.purlem.com">Sign Up</a><br />
+  Need Help?  Watch the <a href="http://youtu.be/ZsxnLVts02c" target="_blank">Video Tutorial</a> or visit the <a href="http://support.purlem.com/entries/483765-purlem-wordpress-plugin-install" target="_blank">Support Page</a>.</p>
   <form action="options.php" method="post">
   <?php wp_nonce_field('update-options'); ?>
   
