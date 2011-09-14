@@ -26,11 +26,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 
-add_action('update_option_purlemID', 'add_htaccess_code');
-add_action('update_option_purlemURI', 'add_htaccess_code');
-add_action('get_header', 'display_purl_code');
-add_action('the_content', 'display_purl_content');
-add_action('the_title', 'display_purl_header');
+add_action('update_option_purlemID', 'add_htaccess_code'); //called when the settings are saved
+add_action('update_option_purlemURI', 'add_htaccess_code'); //called when the settings are saved
+add_action('get_header', 'display_purl_code'); //called when viewing page as defined in purlemURI.  results of the function are placed in the header of the page.
+add_action('the_content', 'display_purl_content'); //called when viewing page as defined in purlemURI.  Results of the function are placed in the content area.
+add_action('the_title', 'display_purl_header'); //called when viewing page as defined in purlemURI.  Results 
 add_action('widgets_init', create_function('', 'return register_widget("PurlemWidget");'));
 add_action('the_post', 'purlCSS');
 
