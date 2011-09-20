@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.1.2
+Version: 1.1.3
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
@@ -70,7 +70,14 @@ RewriteRule ^([a-zA-Z0-9]+)\\\\\.([a-zA-Z0-9]+)/?$ ".get_option('purlemURI')."?p
 }
 
 function display_purl_code() {
-	$data = @file_get_contents('http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"]); 
+	if(get_option('purlapi') == 'file_get_contents') {
+		$data = @file_get_contents('http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"]); 
+	} else {
+		$curl = @curl_init(); curl_setopt ($curl, CURLOPT_URL, 'http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"]); 
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);          
+		$data = curl_exec ($curl); 
+		curl_close ($curl);
+	}
 	$user = json_decode($data); 
 	@session_start();
 	if($user->{'login'} && ($_SESSION['visitor'] != $user->{'firstName'}.''.$user->{'lastName'})) { 
@@ -129,27 +136,42 @@ function plugin_options_page() {
   
   <table class="form-table">
   
-  <tr valign="top">
+  <tr valign="top" style="background-color:#f4f4f4; border-bottom: 1px solid #e6e6e6;">
   <th scope="row">Purlem Client ID:</th>
-  <td><input name="purlemID" type="text" value="<?php echo get_option('purlemID'); ?>" size="10" /></td>
+  <td><input name="purlemID" type="text" value="<?php echo get_option('purlemID'); ?>" size="10" style="font-size:16px;" /></td>
   </tr>
    
-  <tr valign="top">
+  <tr valign="top" style="background-color:#f4f4f4; border-bottom: 1px solid #ccc;">
   <th scope="row">Page URL: </th>
-  <td><input name="purlemURI" type="text" value="<?php echo get_option('purlemURI'); ?>" size="50" /><br />
-  <i>The full URL of the blog page to be personalized.</i></td>
+  <td><input name="purlemURI" type="text" value="<?php echo get_option('purlemURI'); ?>" size="50" style="font-size:16px;" /><br />
+  <i style="color:gray;font-size:11px;">The full URL of the blog page to be personalized.</i></td>
   </tr>
   
-   <tr valign="top">
+  <tr valign="top" style="border-bottom: 1px solid #e6e6e6;">
   <th scope="row">Show Form in Content Area: </th>
   <td><input <?php if (!(strcmp(get_option('showPurlForm'),"Y"))) {echo "checked=\"checked\"";} ?> name="showPurlForm" type="checkbox" value="Y" /></td>
+  </tr>
+
+  <tr valign="top">
+  <th scope="row">API Type: </th>
+  <td>
+  <?php if (!(strcmp(get_option('purlapi'),"curl"))) { 
+	$curl = 'checked';
+  } else {
+	$file_get_contents = 'checked';
+  }?>
+  <input type="radio" name="purlapi" value="file_get_contents" <?php echo $file_get_contents; ?>> file_get_contents  &nbsp;  <input type="radio" name="purlapi" value="curl" <?php echo $curl; ?>> curl
+  <br />
+  <i style="color:gray;font-size:11px;">If you receive a "PURL NOT FOUND" error, try using curl.</i>
+  </td>
   </tr>
   
   
   </table>
   
+  <input type="hidden" name="apiType" value="update" />
   <input type="hidden" name="action" value="update" />
-  <input type="hidden" name="page_options" value="purlemID,purlemURI,showPurlForm" />
+  <input type="hidden" name="page_options" value="purlemID,purlemURI,showPurlForm,purlapi" />
   
   <p class="submit">
   <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />

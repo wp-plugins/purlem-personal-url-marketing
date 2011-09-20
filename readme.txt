@@ -3,8 +3,8 @@ Contributors: Marty Thomas, Purlem
 Tags: Personal URL, Personalized URL, PURL, Marketing
 Link: http://purlem.com/
 Requires at least: 2.1
-Tested up to: 3.1.3
-Stable tag: 1.1.2
+Tested up to: 3.2.1
+Stable tag: 1.1.3
 
 Personalize your blog to visitors and track results with Personalized URLs (PURLs). The Plugin Requires a Purlem Account.
 
