@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.1.6
+Version: 1.1.3
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
@@ -32,7 +32,7 @@ add_action('get_header', 'display_purl_code');
 add_action('the_content', 'display_purl_content');
 add_action('the_title', 'display_purl_header');
 add_action('widgets_init', create_function('', 'return register_widget("PurlemWidget");'));
-add_action('wp_head', 'purlCSS'); 
+add_action('the_post', 'purlCSS');
 
 
 function add_htaccess_code() {
@@ -70,6 +70,11 @@ RewriteRule ^([a-zA-Z0-9]+)\\\\\.([a-zA-Z0-9]+)/?$ ".get_option('purlemURI')."?p
 }
 
 function display_purl_code() {
+	$uri = explode('/',$_SERVER['REQUEST_URI']); 
+	if(!$_GET['page']) $_GET['page'] = $uri[2];
+	if(!is_numeric($_GET['page'])) $_GET['page'] = $uri[3];
+	if(!is_numeric($_GET['page'])) $_GET['page'] = $uri[4];
+
 	if(get_option('purlapi') == 'file_get_contents') {
 		$data = @file_get_contents('http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"]); 
 	} else {
@@ -80,11 +85,10 @@ function display_purl_code() {
 	}
 	$user = json_decode($data); 
 	@session_start();
-	if($_GET['username']) $_SESSION['visitor']=$_GET['username']; 
 	if($user->{'login'} && ($_SESSION['visitor'] != $user->{'firstName'}.''.$user->{'lastName'})) { 
-	 	echo $user->{'login'}; 
+		echo $user->{'login'}; 
 		exit; 
-	}	
+	}
 	$_SESSION['user'] = $user;
 }
 
