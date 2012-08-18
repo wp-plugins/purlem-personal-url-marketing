@@ -3,13 +3,13 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.1.8
+Version: 1.1.9
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
 
 
-Copyright 2011  Marty Thomas  (email : support@purlem.com)
+Copyright 2012  Marty Thomas  (email : support@purlem.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as 
@@ -41,7 +41,7 @@ function add_htaccess_code() {
 RewriteCond %{SCRIPT_FILENAME} !([A-Za-z0-9_]+)\.(html?|php|asp|css|jpg|gif|shtml|htm|xhtml|txt|ico|xml|wp-admin|admin)/?$ [NC] 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^([A-Za-z0-9]+)\.([A-Za-z0-9]+)/?$ ".get_option('purlemURI')."&purl=\\$1\\$2&ID=".get_option('purlemID')."&page=1&wordpress=Y [R]\n#END PURL CODE";
+RewriteRule ^([A-Za-z0-9]+)\\\\\.([A-Za-z0-9]+)/?$ ".get_option('purlemURI')."&purl=\\$1\\$2&ID=".get_option('purlemID')."&page=1&wordpress=Y [R]\n#END PURL CODE";
 	$code_permalink = "#PURL CODE
 <IfModule mod_rewrite.c>
 RewriteEngine On
@@ -84,24 +84,24 @@ function display_purl_code() {
 		$data = curl_exec ($curl); 
 		curl_close ($curl);
 	}
-	$user = json_decode($data); 
+	$visitor = json_decode($data); 
 	@session_start();
 	if($_GET['username']) $_SESSION['visitor']=$_GET['username']; 
-	if($user->{'login'} && ($_SESSION['visitor'] != $user->{'firstName'}.''.$user->{'lastName'})) { 
-		echo $user->{'login'}; 
+	if($visitor->{'login'} && ($_SESSION['visitor'] != $visitor->{'firstName'}.''.$visitor->{'lastName'})) { 
+		echo $visitor->{'login'}; 
 		exit; 
 	}
-	$_SESSION['user'] = $user;
+	$_SESSION['visitor'] = $visitor;
 }
 
 function display_purl_content($content) {
 	$newContent .= purl_convert($content);
 	
 	if($_GET['wordpress'] == 'Y') {
-		$newContent .= $_SESSION['user']->{'content'};
-		if(get_option('showPurlForm') == 'Y') $newContent .= $_SESSION['user']->{'form'};
+		$newContent .= $_SESSION['visitor']->{'content'};
+		if(get_option('showPurlForm') == 'Y') $newContent .= $_SESSION['visitor']->{'form'};
 		
-		if(!$_SESSION['user']->{'firstName'}) {
+		if(!$_SESSION['visitor']->{'firstName'}) {
 			$newContent .= '<b>PURL NOT FOUND</b> Please try again.';
 		}
 	}
@@ -206,18 +206,18 @@ function purl_convert($content) {
 	$patterns[$i] = '/#zip/'; $i++;
 	$patterns[$i] = '/#password/'; $i++;
 	$i=0;
-	$replacements[$i] = $_SESSION['user']->{'firstName'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'lastName'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'contact_organization'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'contact_position'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'contact_email'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'contact_phone'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'contact_address1'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'contact_address1'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'contact_city'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'contact_state'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'contact_zip'}; $i++;
-	$replacements[$i] = $_SESSION['user']->{'contact_password'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'firstName'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'lastName'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'contact_organization'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'contact_position'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'contact_email'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'contact_phone'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'contact_address1'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'contact_address1'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'contact_city'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'contact_state'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'contact_zip'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'contact_password'}; $i++;
 	$convertedContent = preg_replace($patterns, $replacements, $content);
 	return $convertedContent;
 }
@@ -240,7 +240,7 @@ class PurlemWidget extends WP_Widget {
               <?php echo $before_widget; ?>
                   <?php if ( $title )
                         echo $before_title . $title . $after_title;
-												echo $_SESSION['user']->{'form'};
+						echo $_SESSION['visitor']->{'form'};
                echo $after_widget; ?>
         <?php
     }
