@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.1.9
+Version: 1.2.0
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
