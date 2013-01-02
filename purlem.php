@@ -196,6 +196,7 @@ function purl_convert($content) {
 	$patterns[$i] = '/#firstName/'; $i++;
 	$patterns[$i] = '/#lastName/'; $i++;
 	$patterns[$i] = '/#organization/'; $i++;
+	$patterns[$i] = '/#company/'; $i++;
 	$patterns[$i] = '/#position/'; $i++;
 	$patterns[$i] = '/#email/'; $i++;
 	$patterns[$i] = '/#phone/'; $i++;
@@ -209,6 +210,7 @@ function purl_convert($content) {
 	$replacements[$i] = $_SESSION['visitor']->{'firstName'}; $i++;
 	$replacements[$i] = $_SESSION['visitor']->{'lastName'}; $i++;
 	$replacements[$i] = $_SESSION['visitor']->{'contact_organization'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'contact_company'}; $i++;
 	$replacements[$i] = $_SESSION['visitor']->{'contact_position'}; $i++;
 	$replacements[$i] = $_SESSION['visitor']->{'contact_email'}; $i++;
 	$replacements[$i] = $_SESSION['visitor']->{'contact_phone'}; $i++;
