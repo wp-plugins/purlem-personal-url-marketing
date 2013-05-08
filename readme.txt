@@ -4,7 +4,7 @@ Tags: Personal URL, Personalized URL, PURL, Marketing
 Link: http://purlem.com/
 Requires at least: 2.1
 Tested up to: 3.2.1 
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 
 Personalize your blog to visitors and track results with Personalized URLs (PURLs). The Plugin Requires a Purlem Account.
 
