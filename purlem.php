@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.2.2
+Version: 1.2.3
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
@@ -51,22 +51,30 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([a-zA-Z0-9]+)\\\\\.([a-zA-Z0-9]+)/?$ ".get_option('purlemURI')."?purl=\\$1\\$2&ID=".get_option('purlemID')."&page=1&wordpress=Y [R,L]
 </IfModule>
 #END PURL CODE\n";
-	$htaccess_content = @file_get_contents($file);
-	if($htaccess_content) {
-		if(strstr($htaccess_content,'<IfModule mod_rewrite.c>')) {
-			$purlCode = $code_permalink;
+	if($htaccess_content = file_get_contents($file)) {
+		if($htaccess_content) {
+			if(strstr($htaccess_content,'<IfModule mod_rewrite.c>')) {
+				$purlCode = $code_permalink;
+			} else {
+				$purlCode = $code;
+			}
+			$search_pattern = "/(#PURL CODE)(?:[\w\W\r\n]*?)(#END PURL CODE)/i";
+			$new_content = preg_replace($search_pattern, $purlCode, $htaccess_content);
+			if(!strstr($new_content,'#PURL CODE')) {
+				$new_content = $purlCode."".$htaccess_content;
+			}
+			if(!file_put_contents($file, stripslashes($new_content))) {
+				add_settings_error( 'error', '', 'We were not able to append to the .htaccess file. For help please contact us - support@purlem.com', 'error' );
+			}
 		} else {
-			$purlCode = $code;
+			if(!file_put_contents($file, stripslashes($code))) {
+				add_settings_error( 'error', '', 'We were not able to update the .htaccess file. For help please contact us - support@purlem.com', 'error' );
+			}
 		}
-		$search_pattern = "/(#PURL CODE)(?:[\w\W\r\n]*?)(#END PURL CODE)/i";
-		$new_content = preg_replace($search_pattern, $purlCode, $htaccess_content);
-		if(!strstr($new_content,'#PURL CODE')) {
-			$new_content = $purlCode."".$htaccess_content;
-		}
-		file_put_contents($file, stripslashes($new_content));
 	} else {
-		file_put_contents($file, stripslashes($code));
+		add_settings_error( 'error', '', 'We were not able to access the .htaccess file. For help please contact us - support@purlem.com', 'error' );
 	}
+	
 }
 
 function display_purl_code() {
