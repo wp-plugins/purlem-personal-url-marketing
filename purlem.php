@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.2.4
+Version: 1.2.5
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 add_action('update_option_purlemID', 'add_htaccess_code');
 add_action('update_option_purlemURI', 'add_htaccess_code');
-add_action('get_header', 'display_purl_code');
+add_action('the_title', 'display_purl_code');
 add_action('the_content', 'display_purl_content');
 add_action('the_title', 'display_purl_header');
 add_action('widgets_init', create_function('', 'return register_widget("PurlemWidget");'));
@@ -104,7 +104,7 @@ function display_purl_code() {
 
 function display_purl_content($content) {
 	$newContent .= purl_convert($content);
-	
+	@session_start();
 	if($_GET['wordpress'] == 'Y') {
 		$newContent .= $_SESSION['visitor']->{'content'};
 		if(get_option('showPurlForm') == 'Y') $newContent .= $_SESSION['visitor']->{'form'};
