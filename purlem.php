@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.2.6
+Version: 1.2.8
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
@@ -25,15 +25,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
-add_action('update_option_purlemID', 'add_htaccess_code');
-add_action('update_option_purlemURI', 'add_htaccess_code');
-add_action('the_title', 'display_purl_code');
-add_action('the_content', 'display_purl_content');
-add_action('the_title', 'display_purl_header');
-add_action('widgets_init', create_function('', 'return register_widget("PurlemWidget");'));
-add_action('wp_head', 'purlCSS'); 
-
+if($_GET['purl'] && $_GET['purl'] != '') {
+	add_action('update_option_purlemID', 'add_htaccess_code');
+	add_action('update_option_purlemURI', 'add_htaccess_code');
+	add_action('get_header', 'display_purl_code');
+	add_action('the_content', 'display_purl_content');
+	add_action('the_title', 'display_purl_header');
+	add_action('widgets_init', create_function('', 'return register_widget("PurlemWidget");'));
+	add_action('wp_head', 'purlCSS'); 
+}
 
 function add_htaccess_code() {
 	$file = '../.htaccess';
@@ -106,7 +106,7 @@ function display_purl_content($content) {
 	$newContent .= purl_convert($content);
 	@session_start();
 	
-	if(!$_SESSION['visitor'] && !$_GET['refreshed']) {
+	if(!$_SESSION['visitor'] && !$_GET['refreshed'] && $_GET['purl']) {
 		header( 'Location: http://'.$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI].'?ID='.$_GET['ID'].'&purl='.$_GET['purl'].'&test='.$_GET['test'].'&wordpress='.$_GET['wordpress'].'&refreshed=Y' ) ;
 	}
 	
