@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.3.0
+Version: 1.3.1
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
@@ -45,10 +45,10 @@ RewriteRule ^([A-Za-z0-9]+)\\\\\.([A-Za-z0-9]+)/?$ ".get_option('purlemURI')."&p
 	$code_permalink = "#PURL CODE
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteCond %{SCRIPT_FILENAME} !([A-Za-z0-9_]+).(html?|php|asp|css|jpg|gif|shtml|htm|xhtml|txt|ico|xml|wp-admin|admin)/?$ [NC]
+RewriteCond %{SCRIPT_FILENAME} !([A-Za-z0-9_]+)\.(html?|php|asp|css|jpg|gif|shtml|htm|xhtml|txt|ico|xml|wp-admin|admin)/?$ [NC]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([a-zA-Z0-9]+)\\\\\.([a-zA-Z0-9]+)/?$ ".get_option('purlemURI')."?purl=\\$1\\$2&ID=".get_option('purlemID')."&page=1&wordpress=Y [R,L]
+RewriteRule ^([A-Za-z0-9_]+)\\\\\.([A-Za-z0-9_]+)/?$ ".get_option('purlemURI')."?purl=\\$1\\$2&ID=".get_option('purlemID')."&page=1&wordpress=Y [R,L]
 </IfModule>
 #END PURL CODE\n";
 	if($htaccess_content = file_get_contents($file)) {
