@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.3.1
+Version: 1.3.3
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
@@ -26,14 +26,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 if($_GET['purl'] && $_GET['purl'] != '') {
-	add_action('update_option_purlemID', 'add_htaccess_code');
-	add_action('update_option_purlemURI', 'add_htaccess_code');
 	add_action('wp_head', 'display_purl_code');
 	add_action('the_content', 'display_purl_content');
 	add_action('the_title', 'display_purl_header');
-	add_action('widgets_init', create_function('', 'return register_widget("PurlemWidget");'));
 	add_action('wp_head', 'purlCSS'); 
 }
+
+add_action('update_option_purlemID', 'add_htaccess_code');
+add_action('update_option_purlemURI', 'add_htaccess_code');
+add_action('widgets_init', create_function('', 'return register_widget("PurlemWidget");'));
 
 function add_htaccess_code() {
 	$file = '../.htaccess';
