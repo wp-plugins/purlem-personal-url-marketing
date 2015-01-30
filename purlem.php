@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.3.3
+Version: 1.3.4
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
@@ -221,6 +221,7 @@ function purl_convert($content) {
 	$patterns[$i] = '/#state/'; $i++;
 	$patterns[$i] = '/#zip/'; $i++;
 	$patterns[$i] = '/#password/'; $i++;
+	$patterns[$i] = '/#form/'; $i++;
 	$i=0;
 	$replacements[$i] = $_SESSION['visitor']->{'firstName'}; $i++;
 	$replacements[$i] = $_SESSION['visitor']->{'lastName'}; $i++;
@@ -235,6 +236,7 @@ function purl_convert($content) {
 	$replacements[$i] = $_SESSION['visitor']->{'contact_state'}; $i++;
 	$replacements[$i] = $_SESSION['visitor']->{'contact_zip'}; $i++;
 	$replacements[$i] = $_SESSION['visitor']->{'contact_password'}; $i++;
+	$replacements[$i] = $_SESSION['visitor']->{'form'}; $i++;
 	$convertedContent = preg_replace($patterns, $replacements, $content);
 	return $convertedContent;
 }
