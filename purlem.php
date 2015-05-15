@@ -3,7 +3,7 @@
 Plugin Name: Purlem Personalized URL
 Plugin URI: http://purlem.com
 Description: Personalize your blog to visitors and track results with Personalized URLs (PURLs). <strong>The Plugin Requires a <a href='http://www.purlem.com'>Purlem Account</a>.</strong>
-Version: 1.3.4
+Version: 1.3.5
 Author: Marty Thomas
 Author URI: http://purlem.com/company
 License: A "Slug" license name e.g. GPL2
@@ -86,9 +86,9 @@ function display_purl_code() {
 	if(!is_numeric($_GET['page'])) $_GET['page'] = $uri[4];
 
 	if(get_option('purlapi') == 'file_get_contents') {
-		$data = @file_get_contents('http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"].'&domain='.$_SERVER["HTTP_HOST"].'&useragent='.urlencode($_SERVER['HTTP_USER_AGENT']).'&uri='.urlencode($_SERVER['REQUEST_URI']).'&ip='.urlencode($_SERVER['REMOTE_ADDR'])); 
+		$data = @file_get_contents('http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&qr='.$_GET["qr"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"].'&domain='.$_SERVER["HTTP_HOST"].'&useragent='.urlencode($_SERVER['HTTP_USER_AGENT']).'&uri='.urlencode($_SERVER['REQUEST_URI']).'&ip='.urlencode($_SERVER['REMOTE_ADDR'])); 
 	} else {
-		$curl = @curl_init(); curl_setopt ($curl, CURLOPT_URL, 'http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"].'&domain='.$_SERVER["HTTP_HOST"].'&useragent='.urlencode($_SERVER['HTTP_USER_AGENT']).'&uri='.urlencode($_SERVER['REQUEST_URI']).'&ip='.urlencode($_SERVER['REMOTE_ADDR'])); 
+		$curl = @curl_init(); curl_setopt ($curl, CURLOPT_URL, 'http://www.purlapi.com/lp/index.php?ID='.$_GET["ID"].'&name='.$_GET["purl"].'&page='.$_GET["page"].'&qr='.$_GET["qr"].'&test='.$_GET["test"].'&wordpress='.$_GET["wordpress"].'&domain='.$_SERVER["HTTP_HOST"].'&useragent='.urlencode($_SERVER['HTTP_USER_AGENT']).'&uri='.urlencode($_SERVER['REQUEST_URI']).'&ip='.urlencode($_SERVER['REMOTE_ADDR'])); 
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);          
 		$data = curl_exec ($curl); 
 		curl_close ($curl);
